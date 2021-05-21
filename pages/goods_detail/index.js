@@ -2,7 +2,7 @@
  * @Author: Zt2tzzt
  * @Date: 2020-10-10 16:22:11
  * @LastEditors: Zt2tzzt
- * @LastEditTime: 2020-10-26 16:02:32
+ * @LastEditTime: 2021-05-21 18:16:21
  * @Description: file content
  */
 
@@ -18,6 +18,15 @@
   *   4. 已经存在，修改商品数据，购物车数量++，将购物车数组填充回缓存中
   *   5。不存在于购物车数组，添加一个新元素，带上购买数量属性num，重新把购物车数组填充回缓存中
   *   6. 弹出提示
+  * 4. 商品收藏
+  *   1. 页面onShow的时候，加载缓存中的商品收藏的数据
+  *   2. 判断当前商品是否被收藏。
+  *     1. 是，则改变页面的图表。
+  *     2. 不是，
+  *   3. 点击商品收藏按钮。
+  *     1. 判断该商品是否存在于缓存数组中。
+  *     2. 存在，则把该商品删除。
+  *     3. 不存在，则把该商品添加到收藏数组中，存入到缓存中即可。
   */
 import { request } from "../../request/idnex.js"
 import regeneratorRuntime from '../../lib/runtime/runtime.js'
@@ -28,7 +37,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-    goodsObj: {}
+    goodsObj: {},
+    // 商品是否被收藏过
+    isCollect: false
   },
 
   // 商品对象
@@ -37,10 +48,15 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onShow: function () {
+    let curPages =  getCurrentPages();
+    let curPage = curPages[curPages/length - 1]
+    let options = curPage.options
+    
     const {goods_id} = options
     // console.log(goods_id)
     this.getGoodsDetail(goods_id)
+    
   },
 
   // 获取商品的详情数据
@@ -52,6 +68,12 @@ Page({
 
     this.GoodsInfo = goodsObj
 
+    // 1. 获取缓存中的商品收藏的数组
+    let collect = wx.getStorageSync("collect") || []
+    // 2. 判断当前商品是否被收藏
+    let isCollect = collect.some( v => v.goods_id === this.GoodsInfo.goods_id)
+
+
     this.setData({
       goodsObj: {
         goods_name: goodsObj.goods_name,
@@ -61,7 +83,8 @@ Page({
         // 临时自己该，
         goods_introduce: goodsObj.goods_introduce.replace(/\.webp/g,'.jpg'),
         pics: goodsObj.pics
-      }
+      },
+      isCollect
     })
   },
 
