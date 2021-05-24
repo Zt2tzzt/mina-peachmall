@@ -2,39 +2,28 @@
 <!-- 轮播图 -->
 <view class="detail_swiper">
   <swiper autoplay circular indicator-dots="{{true}}">
-    <swiper-item
-    wx:for="{{goodsObj.pics}}"
-    wx:key="pics_id"
-    bindtap="handlePrevewImage"
-    data-url="{{item.pics_mid}}">
+    <swiper-item wx:for="{{goodsObj.pics}}" wx:key="pics_id" bindtap="handlePrevewImage" data-url="{{item.pics_mid}}">
       <image src="{{item.pics_mid}}" mode="widthFix"></image>
     </swiper-item>
   </swiper>
 </view>
-
 <!-- 商品信息 -->
-<view class="goods_price">
-  ￥{{goodsObj.goods_price}}
-</view>
+<view class="goods_price">￥{{goodsObj.goods_price}}</view>
 <view class="goods_name_row">
-  <view class="goods_name">
-    {{goodsObj.goods_name + goodsObj.goods_name}}
-  </view>
-  <view class="goods_collect">
-    <text class="iconfont icon-shoucang1"></text>
+  <view class="goods_name">{{goodsObj.goods_name + goodsObj.goods_name}}</view>
+  <view class="goods_collect" bindtap="handleCollect">
+    <text class="iconfont {{ isCollect ? 'icon-shoucang' : 'icon-shoucang1' }}"></text>
     <view class="collect_text">收藏</view>
   </view>
 </view>
-
 <!-- 图文详情 -->
 <view class="goods_info">
   <view class="goods_info_title">图文详情</view>
   <view class="goods_info_content">
-  <!-- 用上富文本 -->
+    <!-- 用上富文本 -->
     <rich-text nodes="{{goodsObj.goods_introduce}}"></rich-text>
   </view>
 </view>
-
 <!-- 底部工具栏 -->
 <view class="btm_tool">
   <view class="tool_item">
@@ -47,16 +36,10 @@
     <view>分享</view>
     <button open-type="share"></button>
   </view>
-  <navigator class="tool_item"
-  url="/pages/cart/index"
-  open-type="switchTab">
+  <navigator class="tool_item" url="/pages/cart/index" open-type="switchTab">
     <view class="iconfont icon-gou_wu_che2"></view>
     <view>购物车</view>
   </navigator>
-  <view class="tool_item btn_cart" bindtap="handleCartAdd">
-    加入购物车
-  </view>
-  <view class="tool_item btn_buy">
-    立即购买
-  </view>
+  <view class="tool_item btn_cart" bindtap="handleCartAdd">加入购物车</view>
+  <view class="tool_item btn_buy">立即购买</view>
 </view>

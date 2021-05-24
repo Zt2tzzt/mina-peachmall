@@ -1,5 +1,5 @@
 {
-  "pages":[
+  "pages": [
     "pages/index/index",
     "pages/category/index",
     "pages/goods_list/index",
@@ -9,16 +9,16 @@
     "pages/order/index",
     "pages/search/index",
     "pages/user/index",
-    "pages/feedback/inde",
     "pages/login/index",
     "pages/auth/index",
-    "pages/pay/index"
+    "pages/pay/index",
+    "pages/feedback/index"
   ],
-  "window":{
-    "backgroundTextStyle":"light",
+  "window": {
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#008000",
     "navigationBarTitleText": "桃饱商城",
-    "navigationBarTextStyle":"white"
+    "navigationBarTextStyle": "white"
   },
   "style": "v2",
   "tabBar": {
@@ -54,7 +54,5 @@
       }
     ]
   },
-  
   "sitemapLocation": "sitemap.json"
 }
-

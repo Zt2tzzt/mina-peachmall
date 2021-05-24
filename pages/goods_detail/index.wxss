@@ -41,6 +41,9 @@ Page {
 .goods_name_row .goods_collect .iconfont {
   flex: 1;
 }
+.goods_name_row .goods_collect .icon-shoucang {
+  color: orangered;
+}
 .goods_name_row .goods_collect .collect_text {
   flex: 1;
 }

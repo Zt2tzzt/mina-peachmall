@@ -1,4 +1,4 @@
-// pages/feedback/inde.js
+// pages/feedback.js
 Page({
 
   /**

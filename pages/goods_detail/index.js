@@ -2,7 +2,7 @@
  * @Author: Zt2tzzt
  * @Date: 2020-10-10 16:22:11
  * @LastEditors: Zt2tzzt
- * @LastEditTime: 2021-05-21 18:16:21
+ * @LastEditTime: 2021-05-24 11:07:51
  * @Description: file content
  */
 
@@ -50,7 +50,7 @@ Page({
    */
   onShow: function () {
     let curPages =  getCurrentPages();
-    let curPage = curPages[curPages/length - 1]
+    let curPage = curPages[curPages.length - 1]
     let options = curPage.options
     
     const {goods_id} = options
@@ -63,7 +63,7 @@ Page({
   async getGoodsDetail (goods_id) {
     const goodsObj = await request({
       url: "/goods/detail",
-      data: {goods_id},
+      data: {goods_id}
     })
 
     this.GoodsInfo = goodsObj
@@ -81,7 +81,7 @@ Page({
         // iphone部分手机不识别webp图片格式
         // 找后台沟通
         // 临时自己该，
-        goods_introduce: goodsObj.goods_introduce.replace(/\.webp/g,'.jpg'),
+        goods_introduce: goodsObj.goods_introduce.replace(/\.webp/g, '.jpg'),
         pics: goodsObj.pics
       },
       isCollect
@@ -130,52 +130,38 @@ Page({
     });
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
+  handleCollect () {
+    let isCollect = false
+    // 1.获取缓存中的商品收藏数组
+    let collect = wx.getStorageSync("collect") || []
+    // 2. 判断该商品是否被收藏过
+    let index = collect.findIndex(v => v.goods_id === this.GoodsInfo.goods_id)
+    // 3. 当index ！= -1，表示已收藏过
+    if (index !== -1) {
+      // 已收藏过了在数组中删除该商品
+      collect.splice(index, 1)
+      isCollect = false
+      wx.showToast({
+        title: '取消成功',
+        icon: 'none',
+        mask: true
+      });
 
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+    } else {
+      collect.push(this.GoodsInfo)
+      isCollect = true
+      wx.showToast({
+        title: '收藏成功',
+        icon: 'success',
+        mask: true
+      });
+    }
+    // 4.把数据存入缓存中。
+    wx.setStorageSync("collect", collect)
+    // 5.修改data中的属性，isCollect
+    this.setData (
+      isCollect
+    )
   }
+
 })
