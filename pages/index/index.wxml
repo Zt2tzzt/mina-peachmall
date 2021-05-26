@@ -17,7 +17,7 @@
     <swiper circular indicator-dots autoplay interval="5000" duration="1000">
       <block wx:for="{{swiperList}}" wx:key="goods_id">
         <swiper-item>
-          <navigator>
+          <navigator url="{{item.navigator_url}}">
             <image mode="widthFix" src="{{item.image_src}}"></image>
           </navigator>
         </swiper-item>
@@ -27,7 +27,7 @@
   <!-- 轮播图结束 -->
   <!-- 导航开始 -->
   <view class="index_cate">
-    <navigator wx:for="{{catesList}}" wx:key="name">
+    <navigator wx:for="{{catesList}}" wx:key="name" url="/pages/category/index" open-type="switchTab">
       <image src="{{item.image_src}}" mode="widthFix" />
     </navigator>
   </view>
@@ -41,7 +41,7 @@
       </view>
       <!-- 内容 -->
       <view class="floor_list">
-        <navigator wx:for="{{item1.product_list}}" wx:for-item="item2" wx:for-index="index2" wx:key="name">
+        <navigator wx:for="{{item1.product_list}}" wx:for-item="item2" wx:for-index="index2" wx:key="name" url="{{item2.navigator_url}}" >
           <image src="{{item2.image_src}}" mode="{{index2 === 0 ? 'widthFix' : 'scaleToFill'}}" ></image>
         </navigator>
       </view>

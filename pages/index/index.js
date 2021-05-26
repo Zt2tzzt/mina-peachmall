@@ -2,7 +2,7 @@
  * @Author: Zt2tzzt
  * @Date: 2020-10-10 16:01:13
  * @LastEditors: Zt2tzzt
- * @LastEditTime: 2020-10-20 09:21:16
+ * @LastEditTime: 2021-05-26 14:58:55
  * @Description: file content
  */
 // pages/category/index.js
@@ -51,6 +51,9 @@ Page({
       url: "/home/swiperdata"
     }).then( result => {
       // console.log(result)
+      result.forEach(v => {
+        v.navigator_url = v.navigator_url.replace("main", "index")
+      });
       this.setData({
         swiperList: result
       })
@@ -62,7 +65,6 @@ Page({
     request({
       url: "/home/catitems"
     }).then( result => {
-      console.log(result)
       this.setData({
         catesList: result
       })
@@ -74,7 +76,11 @@ Page({
     request({
       url: "/home/floordata"
     }).then( result => {
-      console.log(result)
+      result.forEach(v => {
+        v.product_list.forEach(e => {
+          e.navigator_url = e.navigator_url.replace("?", "/index?")
+        })
+      })
       this.setData({
         floorList: result
       })

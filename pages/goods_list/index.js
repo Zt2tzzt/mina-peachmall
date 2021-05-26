@@ -2,7 +2,7 @@
  * @Author: Zt2tzzt
  * @Date: 2020-10-10 16:22:11
  * @LastEditors: Zt2tzzt
- * @LastEditTime: 2020-10-22 09:28:12
+ * @LastEditTime: 2021-05-26 14:33:48
  * @Description: file content
  */
 
@@ -73,7 +73,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.QueryParams.cid = options.cid
+    this.QueryParams.cid = options.cid || ""
+    this.QueryParams.query = options.query || ""
     this.getGoodsList()
   },
 

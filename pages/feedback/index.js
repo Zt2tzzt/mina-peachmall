@@ -3,7 +3,7 @@
  * @Author: Zt2tzzt
  * @Date: 2021-05-24 17:34:03
  * @LastEditors: Zt2tzzt
- * @LastEditTime: 2021-05-25 17:45:18
+ * @LastEditTime: 2021-05-26 11:09:51
  * @LastEditContent: 
  */
 
@@ -126,27 +126,61 @@ Page({
       return
     }
 
-    // 3. 上传图片到专门的服务器
-    // 上传文件的api不支持多个文件同时上传，遍历数组挨个上传
-    chooseImgs.forEach((v, i) => {
+    wx.showToast({
+      title: '上传中',
+      icon: 'loading',
+      mask: true,
+    });
 
-      var upTask = wx.uploadFile({
-        // 图片要上传到哪里
-        url: '',
-        // 被上传到文件路径
-        filePath: v,
-        // 上传的文件的名称，后台来获取文件file
-        name: "",
-        // 顺带的文本信息
-        formData: {},
-        success: (result)=>{
-          
-        },
-        fail: ()=>{},
-        complete: ()=>{}
-        
+    // 判断有没有需要上传的图片数组
+    if (chooseImgs.length != 0) {
+
+      // 3. 上传图片到专门的服务器
+      // 上传文件的api不支持多个文件同时上传，遍历数组挨个上传
+      chooseImgs.forEach((v, i) => {
+
+        var upTask = wx.uploadFile({
+          // 图片要上传到哪里
+          url: 'https://img.coolcr.cn/api/upload',
+          // 被上传到文件路径
+          filePath: v,
+          // 上传的文件的名称，后台来获取文件file
+          name: "image",
+          // 顺带的文本信息
+          formData: {},
+          success: (result)=>{
+            console.log(result)
+            let url = JSON.parse(result.data).data.url
+            this.UploadImgs.push(url)
+            console.log(this.UploadImgs)
+
+            // 所有图片都上传完毕了才触发
+            if(i === chooseImgs.length - 1) {
+              // 弹窗关闭
+              console.log("把文本的内容和外网的图片数组提交到后台中")
+              // 提交才成功
+              // 重置页面
+              this.setData({
+                textareaVal: "",
+                chooseImgs: []
+              })
+
+              // 返回上一页
+              wx.navigateBack({
+                delta: 1
+              });
+            }
+          }
+        });
+      })
+
+    } else {
+      wx.hideLoading();
+      console.log("只是提交了文本")
+      wx.navigateBack({
+        delta: 1
       });
-    })
+    }
   }
   
 });
